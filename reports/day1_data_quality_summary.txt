@@ -1,0 +1,8 @@
+Day 1 Data Quality Summary
+
+1. Successfully loaded all 10 datasets.
+2. No missing values found in most datasets.
+3. Dataset 04_monthly_sip_inflows contains 12 missing values in yoy_growth_pct, likely due to unavailable previous-year comparison data.
+4. All AMFI codes from fund_master were validated against nav_history.
+5. Data types appear consistent with business definitions.
+6. No major ingestion issues detected.
