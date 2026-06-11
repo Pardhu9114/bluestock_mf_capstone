@@ -1,32 +1,58 @@
+"""
+Bluestock Mutual Fund Analytics Capstone
+
+This script performs an initial exploratory review of all raw
+CSV datasets by displaying dataset dimensions, data types,
+sample records, and missing value statistics.
+"""
+
 from pathlib import Path
 import pandas as pd
 
-raw_folder = Path("data/raw")
 
-csv_files = sorted(raw_folder.glob("*.csv"))
+def inspect_raw_datasets():
+    """
+    Inspect all raw CSV datasets.
 
-print(f"Found {len(csv_files)} CSV files\n")
+    The function scans the raw data directory, reads each CSV
+    file, and displays key information including dataset shape,
+    column data types, sample records, and missing value counts.
 
-for file in csv_files:
-    print("=" * 80)
-    print(f"FILE: {file.name}")
+    Returns
+    -------
+    None
+    """
 
-    try:
-        df = pd.read_csv(file)
+    raw_folder = Path("data/raw")
 
-        print("\nShape:")
-        print(df.shape)
+    csv_files = sorted(raw_folder.glob("*.csv"))
 
-        print("\nData Types:")
-        print(df.dtypes)
+    print(f"Found {len(csv_files)} CSV files\n")
 
-        print("\nFirst 5 Rows:")
-        print(df.head())
+    for file in csv_files:
+        print("=" * 80)
+        print(f"FILE: {file.name}")
 
-        print("\nMissing Values:")
-        print(df.isnull().sum())
+        try:
+            df = pd.read_csv(file)
 
-    except Exception as e:
-        print(f"Error reading {file.name}: {e}")
+            print("\nShape:")
+            print(df.shape)
 
-    print("\n")
+            print("\nData Types:")
+            print(df.dtypes)
+
+            print("\nFirst 5 Rows:")
+            print(df.head())
+
+            print("\nMissing Values:")
+            print(df.isnull().sum())
+
+        except Exception as e:
+            print(f"Error reading {file.name}: {e}")
+
+        print("\n")
+
+
+if __name__ == "__main__":
+    inspect_raw_datasets()

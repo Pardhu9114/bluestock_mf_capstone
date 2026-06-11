@@ -1,32 +1,58 @@
+"""
+Bluestock Mutual Fund Analytics Capstone
+
+This script retrieves historical NAV data for selected mutual
+fund schemes using the MFAPI service and stores the data as
+CSV files for further analysis.
+"""
+
 import pandas as pd
 import requests
 
-schemes = {
-    "hdfc_top100": 125497,
-    "sbi_bluechip": 119551,
-    "icici_bluechip": 120503,
-    "nippon_largecap": 118632,
-    "axis_bluechip": 119092,
-    "kotak_bluechip": 120841
-}
 
-for name, code in schemes.items():
+def fetch_nav_data():
+    """
+    Fetch historical NAV data for selected mutual fund schemes.
 
-    url = f"https://api.mfapi.in/mf/{code}"
+    The function retrieves NAV history from the MFAPI endpoint
+    for predefined mutual fund schemes and saves each dataset
+    as a CSV file in the raw data directory.
 
-    response = requests.get(url)
+    Returns
+    -------
+    None
+    """
 
-    if response.status_code == 200:
+    schemes = {
+        "hdfc_top100": 125497,
+        "sbi_bluechip": 119551,
+        "icici_bluechip": 120503,
+        "nippon_largecap": 118632,
+        "axis_bluechip": 119092,
+        "kotak_bluechip": 120841
+    }
 
-        data = response.json()
+    for name, code in schemes.items():
 
-        nav_df = pd.DataFrame(data["data"])
+        url = f"https://api.mfapi.in/mf/{code}"
 
-        filename = f"data/raw/{name}_nav.csv"
+        response = requests.get(url)
 
-        nav_df.to_csv(filename, index=False)
+        if response.status_code == 200:
 
-        print(f"Saved {filename}")
+            data = response.json()
 
-    else:
-        print(f"Failed: {name}")
+            nav_df = pd.DataFrame(data["data"])
+
+            filename = f"data/raw/{name}_nav.csv"
+
+            nav_df.to_csv(filename, index=False)
+
+            print(f"Saved {filename}")
+
+        else:
+            print(f"Failed: {name}")
+
+
+if __name__ == "__main__":
+    fetch_nav_data()
